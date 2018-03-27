@@ -1,0 +1,25 @@
+{{template "header"}}
+
+{{template "navbar"}}
+
+<div class="container">
+    <div class="row justify-content-center pt-5 pb-5">
+        <div class="col-lg-8">
+            <h1>Articles</h1>
+            <div class="list-group">
+            {{range .}}
+            <a href="{{.URL}}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h3 class="mb-1">{{.Title}}</h3>
+                    <small>{{.Created}}</small>
+                </div>
+                <p class="mb-1">{{.Teaser}}</p>
+                <small>Author: {{.Author}}</small>
+            </a>
+            {{end}}
+            </div>
+        </div><!-- /col-lg-8 -->
+    </div><!-- /row -->
+</div><!-- /container -->
+
+{{template "footer"}}

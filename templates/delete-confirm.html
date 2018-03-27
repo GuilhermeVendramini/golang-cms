@@ -1,0 +1,22 @@
+{{template "header"}}
+
+{{template "navbar"}}
+
+<div class="container">
+    <div class="row justify-content-center pt-5 pb-5">
+        <div class="col-lg-8">
+            {{template "navcontent" .}}
+            <h1>Delete "{{.Title}}"?</h1>
+            <div class="form">
+                <form method="post" action="/delete/process{{.URL}}">
+                    <div class="form-group">
+                        <input type="hidden" name="item-url" value="{{.URL}}">
+                    </div>
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div><!-- /row -->
+</div><!-- /container -->
+
+{{template "footer"}}

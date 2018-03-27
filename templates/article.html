@@ -1,0 +1,20 @@
+{{template "header"}}
+
+{{template "navbar"}}
+
+<div class="container">
+    <div class="row justify-content-center pt-5 pb-5">
+        <div class="col-lg-8">
+            {{template "navcontent" .}}
+            <h1>{{.Title}}</h1>
+            <div class="teaser">{{.Teaser}}</div>
+            <div class="body">{{.Body}}</div>
+            <div class="tags">{{.Tags}}</div>
+            <div class="author">{{.Author}}</div>
+            <div class="created">{{.Created}}</div>
+            <div class="changed">{{.Changed}}</div>
+        </div>
+    </div><!-- /row -->
+</div><!-- /container -->
+
+{{template "footer"}}
