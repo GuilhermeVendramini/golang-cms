@@ -8,12 +8,12 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func index(w http.ResponseWriter, req *http.Request, p httprouter.Params) {
+func index(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	err := config.TPL.ExecuteTemplate(w, "index.html", nil)
 	HandleError(w, err)
 }
 
-func login(w http.ResponseWriter, req *http.Request, p httprouter.Params) {
+func login(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	err := config.TPL.ExecuteTemplate(w, "login.html", nil)
 	HandleError(w, err)
 }

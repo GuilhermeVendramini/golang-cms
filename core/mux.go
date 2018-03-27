@@ -6,11 +6,12 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-// Mux base httprouter
-func Mux() *httprouter.Router {
-	mux := httprouter.New()
-	mux.ServeFiles("/static/*filepath", http.Dir("static"))
-	mux.GET("/", index)
-	mux.GET("/login", login)
-	return mux
+// Mux *httprouter.Router
+var Mux *httprouter.Router
+
+func init() {
+	Mux = httprouter.New()
+	Mux.ServeFiles("/static/*filepath", http.Dir("static"))
+	Mux.GET("/", index)
+	Mux.GET("/login", login)
 }
