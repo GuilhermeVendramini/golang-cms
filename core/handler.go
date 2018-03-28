@@ -18,6 +18,11 @@ func login(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	HandleError(w, err)
 }
 
+func admin(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	err := config.TPL.ExecuteTemplate(w, "admin.html", nil)
+	HandleError(w, err)
+}
+
 // HandleError return Status Internal Server Error
 func HandleError(w http.ResponseWriter, err error) {
 	if err != nil {

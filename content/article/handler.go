@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/GuilhermeVendramini/golang-cms/config"
+	"github.com/GuilhermeVendramini/golang-cms/core/functions"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -32,28 +33,51 @@ func List(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	HandleError(w, err)
 }
 
-// Add call article-add.html
+// Add call article-add.html to add new article
 func Add(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	err := config.TPL.ExecuteTemplate(w, "article-add.html", nil)
 	HandleError(w, err)
 }
 
-// AddProcess add article process
-func AddProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+// Edit call article-add.html to edit a article
+func Edit(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	URL := r.URL.Path
+	URL = strings.Replace(URL, "/edit", "", 1)
+	item, err := Get(URL)
+	if err != nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+	err = config.TPL.ExecuteTemplate(w, "article-add.html", item)
+	HandleError(w, err)
+}
+
+// ItemProcess add or edit article process
+func ItemProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	var err error
+
 	item := Article{}
 	item.Title = r.FormValue("title")
 	item.Teaser = r.FormValue("teaser")
 	item.Body = r.FormValue("body")
 	item.Tags = r.FormValue("tags")
 	item.Author = r.FormValue("author")
-	item.URL = "/article/" + r.FormValue("url")
+	item.URL = r.FormValue("url")
 	item.Changed = time.Now()
-	item.Created = time.Now()
+
+	currentURL := r.FormValue("current-url")
 
 	if item.Title == "" || item.Body == "" || item.URL == "" {
 		http.Redirect(w, r, "/add/article", http.StatusSeeOther)
 	}
-	_, err := Create(item)
+
+	if currentURL != "" {
+		item.Created = functions.StringToTime(r.FormValue("created"))
+		_, err = Update(item, currentURL)
+	} else {
+		item.Created = time.Now()
+		_, err = Create(item)
+	}
+
 	if err != nil {
 		panic(err)
 	}

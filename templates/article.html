@@ -6,13 +6,13 @@
     <div class="row justify-content-center pt-5 pb-5">
         <div class="col-lg-8">
             {{template "navcontent" .}}
-            <h1>{{.Title}}</h1>
-            <div class="teaser">{{.Teaser}}</div>
-            <div class="body">{{.Body}}</div>
-            <div class="tags">{{.Tags}}</div>
-            <div class="author">{{.Author}}</div>
-            <div class="created">{{.Created}}</div>
-            <div class="changed">{{.Changed}}</div>
+            <center><h1>{{.Title}}</h1></center>
+            <div class="teaser"><b>Teaser:</b><br>{{.Teaser}}</div>
+            <div class="body"><b>Body:</b><br>{{.Body}}</div>
+            <div class="tags"><b>Tags:</b><br>{{.Tags}}</div>
+            <div class="author"><b>Author:</b><br>{{.Author}}</div>
+            <div class="created"><b>Created:</b><br>{{.Created}}</div>
+            <div class="changed"><b>Changed:</b><br>{{.Changed}}</div>
         </div>
     </div><!-- /row -->
 </div><!-- /container -->

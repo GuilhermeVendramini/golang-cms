@@ -22,13 +22,22 @@ func Get(URL string) (Article, error) {
 	return item, err
 }
 
-// Remove one article
+// Remove article
 func Remove(URL string) error {
 	err := Articles.Remove(bson.M{"url": URL})
 	if err != nil {
 		return errors.New("500 internal server error")
 	}
 	return nil
+}
+
+// Update article
+func Update(item Article, currentURL string) (Article, error) {
+	err := Articles.Update(bson.M{"url": currentURL}, &item)
+	if err != nil {
+		return item, err
+	}
+	return item, nil
 }
 
 // GetAll return all articles
