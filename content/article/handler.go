@@ -118,6 +118,21 @@ func DeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 	HandleError(w, err)
 }
 
+// AdminContentList admin article list
+func AdminContentList(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	items, err := GetAll()
+	if err != nil {
+		panic(err)
+	}
+
+	vars := make(map[string]interface{})
+	vars["Type"] = "article"
+	vars["Items"] = items
+
+	err = config.TPL.ExecuteTemplate(w, "content.html", vars)
+	HandleError(w, err)
+}
+
 // HandleError return Status Internal Server Error
 func HandleError(w http.ResponseWriter, err error) {
 	if err != nil {

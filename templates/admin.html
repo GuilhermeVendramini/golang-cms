@@ -4,26 +4,7 @@
 
 <div class="container">
     <div class="row pt-5 pb-5">
-        <div class="col-lg-4">
-            <div class="bootstrap-vertical-nav pb-5">
-                <button class="btn btn-primary hidden-md-up" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    <span class="">Admin</span>
-                </button>
-                <div class="collapse" id="collapseExample">
-                    <ul class="nav flex-column" id="exCollapsingNavbar3">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Content</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">E-mail</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        {{template "admin-navbar"}}
         <div class="col-lg-8">
             <h1>Bem vindo, Guilherme.</h1>
         </div>

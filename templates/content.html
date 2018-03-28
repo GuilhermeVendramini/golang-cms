@@ -1,0 +1,23 @@
+{{template "header"}}
+
+{{template "navbar"}}
+
+<div class="container">
+    <div class="row pt-5 pb-5">
+        {{template "admin-navbar"}}
+        <div class="col-lg-8">
+            <h1>Content</h1>
+            {{if eq .Type "article"}}
+            {{template "content-list" .}}
+            {{else}}
+            <ul class="list-group">
+                <li class="list-group-item"><a class="nav-link" href="/admin/content/article">Article</a></li>
+                <li class="list-group-item"><a class="nav-link" href="#">Page</a></li>
+            </ul>
+            {{end}}
+        </div>
+    </div>
+</div>
+
+{{template "footer"}}
+

@@ -13,4 +13,5 @@ func Mux() {
 	core.Mux.POST("/add/article/process", ItemProcess)
 	core.Mux.GET("/delete/article/:url", Delete)
 	core.Mux.POST("/delete/process/article/:url", DeleteProcess)
+	core.Mux.GET("/admin/content/article", AdminContentList)
 }

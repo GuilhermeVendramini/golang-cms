@@ -14,5 +14,6 @@ func init() {
 	Mux.ServeFiles("/static/*filepath", http.Dir("static"))
 	Mux.GET("/", index)
 	Mux.GET("/admin", admin)
+	Mux.GET("/admin/content", content)
 	Mux.GET("/login", login)
 }
