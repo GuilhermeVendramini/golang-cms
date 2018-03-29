@@ -1,7 +1,10 @@
 {{define "content-list"}}
+<div class="mb-4">
+    <a href="/admin/add/{{.Type}}" class="bg-primary text-white btn mb-3 mb-md-0">Add new</a>
+</div>
 <ul class="list-group">
     {{range .Items}}
-    <li class="list-group-item">{{.Title}}</li>
+    <li class="list-group-item"><a href="{{.URL}}">{{.Title}}</a><div class="ml-auto"><a href="/edit{{.URL}}">Edit</a> | <a href="/delete{{.URL}}">Delete</a></div></li>
     {{end}}
 </ul>
 {{end}}

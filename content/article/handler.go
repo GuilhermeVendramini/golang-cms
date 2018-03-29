@@ -67,7 +67,7 @@ func ItemProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	currentURL := r.FormValue("current-url")
 
 	if item.Title == "" || item.Body == "" || item.URL == "" {
-		http.Redirect(w, r, "/add/article", http.StatusSeeOther)
+		http.Redirect(w, r, "/admin/add/article", http.StatusSeeOther)
 	}
 
 	if currentURL != "" {

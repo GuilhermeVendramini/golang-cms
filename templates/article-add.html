@@ -3,13 +3,14 @@
 {{template "navbar"}}
 
 <div class="container">
-    <div class="row justify-content-center pt-5 pb-5">
+    <div class="row pt-5 pb-5">
+        {{template "admin-navbar"}}
         <div class="col-lg-8">
             {{if .}}
             {{template "navcontent" .}}
             {{end}}
             <h1>Article</h1>
-            <form method="post" action="/add/article/process">
+            <form method="post" action="/admin/add/article/process">
                 <div class="form-group">
                     <input type="text" name="title" placeholder="Title" value="{{.Title}}" class="form-control" required="true">
                 </div>
