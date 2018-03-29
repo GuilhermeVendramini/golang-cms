@@ -1,0 +1,37 @@
+{{template "header"}}
+
+{{template "navbar"}}
+
+<div class="container">
+    <div class="row pt-5 pb-5">
+        {{template "admin-navbar"}}
+        <div class="col-lg-8">
+            {{if .}}
+            {{template "navcontent" .}}
+            {{end}}
+            <h1>User</h1>
+            <form method="post" action="/admin/add/user/process">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="User name" value="" class="form-control" required="true">
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="E-mail" value="" class="form-control" required="true">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Password" value="" class="form-control" required="true">
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <label class="form-check-label"><input type="checkbox" name="admin" class="form-check-input">Admin</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="current-email" value="">
+                </div>
+                <input type="submit" class="btn btn-primary">
+            </form>
+        </div>
+    </div><!-- /row -->
+</div><!-- /container -->
+
+{{template "footer"}}
