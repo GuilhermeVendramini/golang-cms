@@ -23,3 +23,13 @@ func Update(user User, currentEmail string) (User, error) {
 	}
 	return user, nil
 }
+
+// GetAll return all users
+func GetAll() ([]User, error) {
+	users := []User{}
+	err := Users.Find(bson.M{}).Sort("-_id").All(&users)
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}

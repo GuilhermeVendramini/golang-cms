@@ -9,7 +9,7 @@
             {{template "navcontent" .}}
             <h1>Delete "{{.Title}}"?</h1>
             <div class="form">
-                <form method="post" action="/delete/process{{.URL}}">
+                <form method="post" action="/admin/delete/process{{.URL}}">
                     <div class="form-group">
                         <input type="hidden" name="item-url" value="{{.URL}}">
                     </div>

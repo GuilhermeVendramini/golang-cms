@@ -4,7 +4,7 @@
 </div>
 <ul class="list-group">
     {{range .Items}}
-    <li class="list-group-item"><a href="{{.URL}}">{{.Title}}</a><div class="ml-auto"><a href="/edit{{.URL}}">Edit</a> | <a href="/delete{{.URL}}">Delete</a></div></li>
+    <li class="list-group-item"><a href="{{.URL}}">{{.Title}}</a><div class="ml-auto"><a href="/admin/edit{{.URL}}">Edit</a> | <a href="/admin/delete{{.URL}}">Delete</a></div></li>
     {{end}}
 </ul>
 {{end}}

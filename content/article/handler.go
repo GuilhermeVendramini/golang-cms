@@ -9,10 +9,12 @@ import (
 	"github.com/GuilhermeVendramini/golang-cms/config"
 	"github.com/GuilhermeVendramini/golang-cms/core/functions"
 	"github.com/julienschmidt/httprouter"
+	"gopkg.in/mgo.v2/bson"
 )
 
 // Article struct
 type Article struct {
+	ID      bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Title   string
 	Teaser  string
 	Body    string
@@ -42,12 +44,16 @@ func Add(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 // Edit call article-add.html to edit a article
 func Edit(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	URL := r.URL.Path
-	URL = strings.Replace(URL, "/edit", "", 1)
-	item, err := Get(URL)
+	ID := strings.Replace(URL, "/admin/edit/article/", "", 1)
+	item, err := Get(ID)
 	if err != nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
-	err = config.TPL.ExecuteTemplate(w, "article-add.html", item)
+	item.URL = strings.Replace(item.URL, "/article/", "", 1)
+	val := make(map[string]interface{})
+	val["Item"] = item
+	val["Type"] = "article"
+	err = config.TPL.ExecuteTemplate(w, "article-add.html", val)
 	HandleError(w, err)
 }
 
@@ -61,18 +67,20 @@ func ItemProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	item.Body = r.FormValue("body")
 	item.Tags = r.FormValue("tags")
 	item.Author = r.FormValue("author")
-	item.URL = r.FormValue("url")
 	item.Changed = time.Now()
 
-	currentURL := r.FormValue("current-url")
+	URL := strings.Replace(r.FormValue("url"), "/article/", "", 1)
+	item.URL = "/article/" + URL
+
+	ID := r.FormValue("item-id")
 
 	if item.Title == "" || item.Body == "" || item.URL == "" {
 		http.Redirect(w, r, "/admin/add/article", http.StatusSeeOther)
 	}
 
-	if currentURL != "" {
+	if ID != "" {
 		item.Created = functions.StringToTime(r.FormValue("created"))
-		_, err = Update(item, currentURL)
+		_, err = Update(item, ID)
 	} else {
 		item.Created = time.Now()
 		_, err = Create(item)
@@ -98,8 +106,8 @@ func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 // Delete return delete-confirm,html
 func Delete(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	URL := r.URL.Path
-	URL = strings.Replace(URL, "/delete", "", 1)
-	item, err := Get(URL)
+	ID := strings.Replace(URL, "/admin/delete/article/", "", 1)
+	item, err := Get(ID)
 	if err != nil {
 		panic(err)
 	}
@@ -109,12 +117,12 @@ func Delete(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // DeleteProcess delete action
 func DeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	URL := r.FormValue("item-url")
+	URL := r.FormValue("item-id")
 	err := Remove(URL)
 	if err != nil {
 		panic(err)
 	}
-	http.Redirect(w, r, "/admin", http.StatusSeeOther)
+	http.Redirect(w, r, "/admin/content", http.StatusSeeOther)
 	HandleError(w, err)
 }
 

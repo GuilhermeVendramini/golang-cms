@@ -6,10 +6,12 @@ import (
 
 	"github.com/GuilhermeVendramini/golang-cms/config"
 	"github.com/julienschmidt/httprouter"
+	"gopkg.in/mgo.v2/bson"
 )
 
 // User struct
 type User struct {
+	ID       bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Name     string
 	Email    string
 	Password string
@@ -17,7 +19,11 @@ type User struct {
 }
 
 func users(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	err := config.TPL.ExecuteTemplate(w, "users.html", nil)
+	users, err := GetAll()
+	if err != nil {
+		panic(err)
+	}
+	err = config.TPL.ExecuteTemplate(w, "users.html", users)
 	HandleError(w, err)
 }
 

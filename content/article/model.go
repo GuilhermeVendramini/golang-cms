@@ -23,8 +23,8 @@ func Get(URL string) (Article, error) {
 }
 
 // Remove article
-func Remove(URL string) error {
-	err := Articles.Remove(bson.M{"url": URL})
+func Remove(ID string) error {
+	err := Articles.Remove(bson.M{"-_id": ID})
 	if err != nil {
 		return errors.New("500 internal server error")
 	}
@@ -32,8 +32,8 @@ func Remove(URL string) error {
 }
 
 // Update article
-func Update(item Article, currentURL string) (Article, error) {
-	err := Articles.Update(bson.M{"url": currentURL}, &item)
+func Update(item Article, ID string) (Article, error) {
+	err := Articles.Update(bson.M{"-_id": ID}, &item)
 	if err != nil {
 		return item, err
 	}

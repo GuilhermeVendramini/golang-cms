@@ -12,24 +12,29 @@
             <h1>Article</h1>
             <form method="post" action="/admin/add/article/process">
                 <div class="form-group">
-                    <input type="text" name="title" placeholder="Title" value="{{.Title}}" class="form-control" required="true">
+                    <input type="text" name="title" placeholder="Title" value="{{.Item.Title}}" class="form-control" required="true">
                 </div>
                 <div class="form-group">
-                    <textarea name="teaser" placeholder="Teaser" required="true" rows="5" class="form-control">{{.Teaser}}</textarea>
+                    <textarea name="teaser" placeholder="Teaser" required="true" rows="5" class="form-control">{{.Item.Teaser}}</textarea>
                 </div>
                 <div class="form-group">
-                    <textarea name="body" placeholder="Body" id="form-body" required="true" rows="20" class="form-control">{{.Body}}</textarea>
+                    <textarea name="body" placeholder="Body" id="form-body" required="true" rows="20" class="form-control">{{.Item.Body}}</textarea>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="tags" placeholder="Tags separated by commas. Example: tag1, tag2" value="{{.Tags}}" class="form-control" required="true">
+                    <input type="text" name="tags" placeholder="Tags separated by commas. Example: tag1, tag2" value="{{.Item.Tags}}" class="form-control" required="true">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="url" value="{{.URL}}" placeholder="/article/my-article" class="form-control" required="true">
+                    <div class="d-flex flex-row">
+                        <div class="p-2">/article/</div>
+                        <div class="w-100">
+                            <input type="text" name="url" value="{{.Item.URL}}" placeholder="my-article" class="form-control" required="true">
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <input type="hidden" name="author" value="Guilherme">
-                    <input type="hidden" name="created" value="{{.Created}}">
-                    <input type="hidden" name="current-url" value="{{.URL}}">
+                    <input type="hidden" name="item-id" value="{{.Item.ID}}">
+                    <input type="hidden" name="created" value="{{.Item.Created}}">
                 </div>
                 <input type="submit" class="btn btn-primary">
             </form>

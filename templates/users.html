@@ -11,7 +11,9 @@
                 <a href="/admin/add/user" class="bg-primary text-white btn mb-3 mb-md-0">Add new user</a>
             </div>
             <ul class="list-group">
-                <li class="list-group-item"><a href="#">Guilherme</a><div class="ml-auto"><a href="#">Edit</a> | <a href="#">Delete</a></div></li>
+                {{range .}}
+                <li class="list-group-item"><a href="#">{{.Name}}</a><div class="ml-auto"><a href="/admin/user/delete/{{.ID.Hex}}">Edit</a> | <a href="/admin/user/edit/{{.ID.Hex}}">Delete</a></div></li>
+                {{end}}
             </ul>
         </div>
     </div>
