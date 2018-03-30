@@ -15,8 +15,15 @@ func Create(item Article) (Article, error) {
 	return item, nil
 }
 
-// Get return one article
-func Get(URL string) (Article, error) {
+// GetbyID return one article by ID
+func GetbyID(ID string) (Article, error) {
+	item := Article{}
+	err := Articles.Find(bson.M{"_id": bson.ObjectIdHex(ID)}).One(&item)
+	return item, err
+}
+
+// GetbyURL return one article by URL
+func GetbyURL(URL string) (Article, error) {
 	item := Article{}
 	err := Articles.Find(bson.M{"url": URL}).One(&item)
 	return item, err
@@ -24,7 +31,7 @@ func Get(URL string) (Article, error) {
 
 // Remove article
 func Remove(ID string) error {
-	err := Articles.Remove(bson.M{"-_id": ID})
+	err := Articles.Remove(bson.M{"_id": bson.ObjectIdHex(ID)})
 	if err != nil {
 		return errors.New("500 internal server error")
 	}
@@ -33,7 +40,7 @@ func Remove(ID string) error {
 
 // Update article
 func Update(item Article, ID string) (Article, error) {
-	err := Articles.Update(bson.M{"-_id": ID}, &item)
+	err := Articles.Update(bson.M{"_id": bson.ObjectIdHex(ID)}, &item)
 	if err != nil {
 		return item, err
 	}

@@ -45,13 +45,13 @@ func Add(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 func Edit(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	URL := r.URL.Path
 	ID := strings.Replace(URL, "/admin/edit/article/", "", 1)
-	item, err := Get(ID)
+	item, err := GetbyID(ID)
 	if err != nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 	item.URL = strings.Replace(item.URL, "/article/", "", 1)
 	val := make(map[string]interface{})
-	val["Item"] = item
+	val["Content"] = item
 	val["Type"] = "article"
 	err = config.TPL.ExecuteTemplate(w, "article-add.html", val)
 	HandleError(w, err)
@@ -95,11 +95,16 @@ func ItemProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 // Read a specific tutorial
 func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	URL := r.URL.Path
-	item, err := Get(URL)
+	item, err := GetbyURL(URL)
 	if err != nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
-	err = config.TPL.ExecuteTemplate(w, "article.html", item)
+
+	vars := make(map[string]interface{})
+	vars["Type"] = "article"
+	vars["Content"] = item
+
+	err = config.TPL.ExecuteTemplate(w, "article.html", vars)
 	HandleError(w, err)
 }
 
@@ -107,11 +112,16 @@ func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 func Delete(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	URL := r.URL.Path
 	ID := strings.Replace(URL, "/admin/delete/article/", "", 1)
-	item, err := Get(ID)
+	item, err := GetbyID(ID)
 	if err != nil {
 		panic(err)
 	}
-	err = config.TPL.ExecuteTemplate(w, "delete-confirm.html", item)
+
+	vars := make(map[string]interface{})
+	vars["Type"] = "article"
+	vars["Content"] = item
+
+	err = config.TPL.ExecuteTemplate(w, "delete-confirm.html", vars)
 	HandleError(w, err)
 }
 
@@ -135,7 +145,7 @@ func AdminContentList(w http.ResponseWriter, r *http.Request, _ httprouter.Param
 
 	vars := make(map[string]interface{})
 	vars["Type"] = "article"
-	vars["Items"] = items
+	vars["Content"] = items
 
 	err = config.TPL.ExecuteTemplate(w, "content.html", vars)
 	HandleError(w, err)
