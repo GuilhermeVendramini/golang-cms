@@ -8,6 +8,7 @@ import (
 
 	"github.com/GuilhermeVendramini/golang-cms/config"
 	"github.com/GuilhermeVendramini/golang-cms/core/functions"
+	"github.com/GuilhermeVendramini/golang-cms/core/modules/file"
 	"github.com/julienschmidt/httprouter"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -18,6 +19,7 @@ type Article struct {
 	Title   string
 	Teaser  string
 	Body    string
+	Image   string
 	Tags    string
 	Author  string
 	URL     string
@@ -77,6 +79,8 @@ func ItemProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if item.Title == "" || item.Body == "" || item.URL == "" {
 		http.Redirect(w, r, "/admin/add/article", http.StatusSeeOther)
 	}
+
+	item.Image = file.Upload(w, r, "image", "static/images")
 
 	if ID != "" {
 		item.Created = functions.StringToTime(r.FormValue("created"))
