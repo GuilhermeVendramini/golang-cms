@@ -7,6 +7,7 @@ import (
 
 	"github.com/GuilhermeVendramini/golang-cms/config"
 	"github.com/julienschmidt/httprouter"
+	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -78,7 +79,11 @@ func UserProcess(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	user := User{}
 	user.Name = r.FormValue("name")
 	user.Email = r.FormValue("email")
-	user.Password = r.FormValue("password")
+
+	user.Password, err = HashPassword(r.FormValue("password"))
+	if err != nil {
+		panic(err)
+	}
 
 	adm := false
 	if r.FormValue("admin") == "on" {
@@ -130,6 +135,12 @@ func DeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 	}
 	http.Redirect(w, r, "/admin/users", http.StatusSeeOther)
 	HandleError(w, err)
+}
+
+// HashPassword Hash user password
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
 }
 
 // HandleError return Status Internal Server Error
