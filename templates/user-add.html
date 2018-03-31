@@ -7,26 +7,26 @@
         {{template "admin-navbar"}}
         <div class="col-lg-8">
             {{if .}}
-            {{template "navcontent" .}}
+            {{template "navuser" .}}
             {{end}}
             <h1>User</h1>
             <form method="post" action="/admin/add/user/process">
                 <div class="form-group">
-                    <input type="text" name="name" placeholder="User name" value="" class="form-control" required="true">
+                    <input type="text" name="name" placeholder="User name" value="{{.User.Name}}" class="form-control" required="true">
                 </div>
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="E-mail" value="" class="form-control" required="true">
+                    <input type="email" name="email" placeholder="E-mail" value="{{.User.Email}}" class="form-control" required="true">
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" placeholder="Password" value="" class="form-control" required="true">
+                    <input type="password" name="password" placeholder="Password" value="{{.User.Password}}" class="form-control" required="true">
                 </div>
                 <div class="form-group">
                     <div class="form-check">
-                        <label class="form-check-label"><input type="checkbox" name="admin" class="form-check-input">Admin</label>
+                        <label class="form-check-label"><input type="checkbox" {{.IsAdmin}} name="admin" class="form-check-input">Admin</label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="hidden" name="current-email" value="">
+                    <input type="hidden" name="user-id" value="{{.User.ID.Hex}}">
                 </div>
                 <input type="submit" class="btn btn-primary">
             </form>

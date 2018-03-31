@@ -92,7 +92,7 @@ func ItemProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	http.Redirect(w, r, item.URL, http.StatusSeeOther)
 }
 
-// Read a specific tutorial
+// Read a specific article
 func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	URL := r.URL.Path
 	item, err := GetbyURL(URL)
@@ -108,7 +108,7 @@ func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	HandleError(w, err)
 }
 
-// Delete return delete-confirm,html
+// Delete return delete-content.html
 func Delete(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	URL := r.URL.Path
 	ID := strings.Replace(URL, "/admin/delete/article/", "", 1)
@@ -121,7 +121,7 @@ func Delete(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	vars["Type"] = "article"
 	vars["Content"] = item
 
-	err = config.TPL.ExecuteTemplate(w, "delete-confirm.html", vars)
+	err = config.TPL.ExecuteTemplate(w, "delete-content.html", vars)
 	HandleError(w, err)
 }
 

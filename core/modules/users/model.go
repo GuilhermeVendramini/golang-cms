@@ -16,12 +16,28 @@ func Create(user User) (User, error) {
 }
 
 // Update user
-func Update(user User, currentEmail string) (User, error) {
-	err := Users.Update(bson.M{"url": currentEmail}, &user)
+func Update(user User, ID string) (User, error) {
+	err := Users.Update(bson.M{"_id": bson.ObjectIdHex(ID)}, &user)
 	if err != nil {
 		return user, err
 	}
 	return user, nil
+}
+
+// Remove user
+func Remove(ID string) error {
+	err := Users.Remove(bson.M{"_id": bson.ObjectIdHex(ID)})
+	if err != nil {
+		return errors.New("500 internal server error")
+	}
+	return nil
+}
+
+// GetbyID return one user by ID
+func GetbyID(ID string) (User, error) {
+	user := User{}
+	err := Users.Find(bson.M{"_id": bson.ObjectIdHex(ID)}).One(&user)
+	return user, err
 }
 
 // GetAll return all users

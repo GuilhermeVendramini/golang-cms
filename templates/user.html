@@ -1,0 +1,16 @@
+{{template "header"}}
+
+{{template "navbar"}}
+
+<div class="container">
+    <div class="row justify-content-center pt-5 pb-5">
+        <div class="col-lg-8">
+            {{template "navuser" .}}
+            <center><h1>{{.User.Name}}</h1></center>
+            <div class="teaser"><b>E-mail:</b><br>{{.User.Email}}</div>
+            <div class="admin"><b>Admin:</b><br>{{.User.Admin}}</div>
+        </div>
+    </div><!-- /row -->
+</div><!-- /container -->
+
+{{template "footer"}}

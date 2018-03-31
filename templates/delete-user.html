@@ -1,0 +1,23 @@
+{{template "header"}}
+
+{{template "navbar"}}
+
+<div class="container">
+    <div class="row pt-5 pb-5">
+        {{template "admin-navbar"}}
+        <div class="col-lg-8">
+            {{template "navuser" .}}
+            <h1>Delete "{{.User.Name}}"?</h1>
+            <div class="form">
+                <form method="post" action="/admin/delete/process/user/{{.User.ID.Hex}}">
+                    <div class="form-group">
+                        <input type="hidden" name="user-id" value="{{.User.ID.Hex}}">
+                    </div>
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div><!-- /row -->
+</div><!-- /container -->
+
+{{template "footer"}}
