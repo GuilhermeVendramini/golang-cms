@@ -1,15 +1,16 @@
-// TODO - Predict  more than one file-group by content type
+// TODO - Predict multiple files by file-group
 $(document).ready(function () {
-    var fGroup = $('#file-exist');
+    $(".file-group" ).each(function(index) {
+        var exist = $(this).children('#file-exist');
+        var self = $(this);
+        if(exist.length) {
+            $(this).children('#file-input').hide();
+        }
 
-    if(fGroup.length) {
-        $('#file-input').hide();
-    }
-
-    $('#file-remove').click(function () {
-        var pGroup = $(this).parents('.file-group');
-        pGroup.find('input[name=file-remove]').val("true")
-        pGroup.find('#file-input').show();
-        pGroup.find('#file-exist').hide();
+        $(this).find('#file-remove').click(function () {
+            self.find('input[name=file-remove]').val("true");
+            self.children('#file-input').show();
+            self.children('#file-exist').hide();
+        });
     });
 });

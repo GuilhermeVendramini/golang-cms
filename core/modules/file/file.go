@@ -2,7 +2,6 @@ package file
 
 import (
 	"io"
-	"math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -38,9 +37,11 @@ func Upload(w http.ResponseWriter, r *http.Request, field string, dir string) st
 		os.Mkdir(fPath, os.ModePerm)
 	}
 
+	// add time prefix if file exist
 	if _, err := os.Stat(fPath + "/" + fName); err == nil {
-		rand := strconv.Itoa(rand.Int())
-		fName = rand + "-" + fName
+		time := time.Now().Unix()
+		pTime := strconv.FormatInt(time, 10)
+		fName = pTime + "-" + fName
 		os.Mkdir(fPath, os.ModePerm)
 	}
 
