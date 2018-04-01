@@ -2,9 +2,11 @@ package file
 
 import (
 	"io"
+	"math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"time"
 )
 
@@ -12,7 +14,7 @@ import (
 func Upload(w http.ResponseWriter, r *http.Request, field string, dir string) string {
 	mf, fh, err := r.FormFile(field)
 	if err != nil {
-		panic(err)
+		return ""
 	}
 	defer mf.Close()
 
@@ -36,6 +38,12 @@ func Upload(w http.ResponseWriter, r *http.Request, field string, dir string) st
 		os.Mkdir(fPath, os.ModePerm)
 	}
 
+	if _, err := os.Stat(fPath + "/" + fName); err == nil {
+		rand := strconv.Itoa(rand.Int())
+		fName = rand + "-" + fName
+		os.Mkdir(fPath, os.ModePerm)
+	}
+
 	path := filepath.Join(wd, dir, tf, fName)
 	nf, err := os.Create(path)
 	if err != nil {
@@ -47,4 +55,12 @@ func Upload(w http.ResponseWriter, r *http.Request, field string, dir string) st
 	io.Copy(nf, mf)
 
 	return fPath + "/" + fName
+}
+
+// Delete file
+func Delete(path string) {
+	var err = os.Remove(path)
+	if err != nil {
+		return
+	}
 }

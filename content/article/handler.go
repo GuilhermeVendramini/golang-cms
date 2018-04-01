@@ -51,10 +51,11 @@ func Edit(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err != nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
-	item.URL = strings.Replace(item.URL, "/article/", "", 1)
+
 	val := make(map[string]interface{})
 	val["Content"] = item
 	val["Type"] = "article"
+	val["URL"] = strings.Replace(item.URL, "/article/", "", 1)
 	err = config.TPL.ExecuteTemplate(w, "article-add.html", val)
 	HandleError(w, err)
 }
@@ -80,7 +81,21 @@ func ItemProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		http.Redirect(w, r, "/admin/add/article", http.StatusSeeOther)
 	}
 
-	item.Image = file.Upload(w, r, "image", "static/images")
+	img := r.FormValue("file")
+	newImg := file.Upload(w, r, "file-upload", "static/images")
+
+	if newImg != "" {
+		file.Delete(img)
+		item.Image = newImg
+	} else {
+		rFile := r.FormValue("file-remove")
+		if rFile == "true" {
+			file.Delete(img)
+			item.Image = ""
+		} else {
+			item.Image = img
+		}
+	}
 
 	if ID != "" {
 		item.Created = functions.StringToTime(r.FormValue("created"))
@@ -131,12 +146,20 @@ func Delete(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // DeleteProcess delete action
 func DeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	URL := r.FormValue("item-id")
-	err := Remove(URL)
+	ID := r.FormValue("item-id")
+
+	item, err := GetbyID(ID)
 	if err != nil {
 		panic(err)
 	}
-	http.Redirect(w, r, "/admin/content", http.StatusSeeOther)
+
+	file.Delete(item.Image)
+
+	err = Remove(ID)
+	if err != nil {
+		panic(err)
+	}
+	http.Redirect(w, r, "/admin/content/article", http.StatusSeeOther)
 	HandleError(w, err)
 }
 

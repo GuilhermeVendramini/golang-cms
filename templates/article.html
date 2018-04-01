@@ -7,12 +7,15 @@
         <div class="col-lg-8">
             {{template "navcontent" .}}
             <center><h1>{{.Content.Title}}</h1></center>
-            <div class="teaser"><b>Teaser:</b><br>{{.Content.Teaser}}</div>
-            <div class="body"><b>Body:</b><br>{{.Content.Body}}</div>
-            <div class="tags"><b>Tags:</b><br>{{.Content.Tags}}</div>
-            <div class="author"><b>Author:</b><br>{{.Content.Author}}</div>
-            <div class="created"><b>Created:</b><br>{{.Content.Created}}</div>
-            <div class="changed"><b>Changed:</b><br>{{.Content.Changed}}</div>
+            {{if .Content.Image}}
+            <div><img src="/{{.Content.Image}}" class="img-fluid"></div>
+            {{end}}
+            <div><b>Teaser:</b><br>{{.Content.Teaser}}</div>
+            <div><b>Body:</b><br>{{.Content.Body}}</div>
+            <div><b>Tags:</b><br>{{.Content.Tags}}</div>
+            <div><b>Author:</b><br>{{.Content.Author}}</div>
+            <div><b>Created:</b><br>{{.Content.Created}}</div>
+            <div><b>Changed:</b><br>{{.Content.Changed}}</div>
         </div>
     </div><!-- /row -->
 </div><!-- /container -->

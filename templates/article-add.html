@@ -20,8 +20,22 @@
                 <div class="form-group">
                     <textarea name="body" placeholder="Body" id="form-body" required="true" rows="20" class="form-control">{{.Content.Body}}</textarea>
                 </div>
-                <div class="form-group">
-                    <input type="file" name="image" placeholder="Image" value="{{.Content.Image}}" class="form-control">
+                <div class="file-group">
+                    {{if .Content.Image}}
+                    <div id="file-exist" class="form-group">
+                        <label>Image</label>
+                        <div class="form-control">
+                            <input type="hidden" name="file" value="{{.Content.Image}}">
+                            <input type="hidden" name="file-remove" value="false">
+                            <a target="_blank" href="/{{.Content.Image}}">{{.Content.Image}}</a>
+                            <button type="button" id="file-remove" class="btn btn-danger">Remove</button>
+                        </div>
+                    </div>
+                    {{end}}
+                    <div id="file-input" class="form-group">
+                        <label>Image</label>
+                        <input type="file" name="file-upload" placeholder="Image" class="form-control">
+                    </div>
                 </div>
                 <div class="form-group">
                     <input type="text" name="tags" placeholder="Tags separated by commas. Example: tag1, tag2" value="{{.Content.Tags}}" class="form-control" required="true">
@@ -30,7 +44,7 @@
                     <div class="d-flex flex-row">
                         <div class="p-2">/article/</div>
                         <div class="w-100">
-                            <input type="text" name="url" value="{{.Content.URL}}" placeholder="my-article" class="form-control" required="true">
+                            <input type="text" name="url" value="{{.URL}}" placeholder="my-article" class="form-control" required="true">
                         </div>
                     </div>
                 </div>
@@ -46,3 +60,5 @@
 </div><!-- /container -->
 
 {{template "footer"}}
+
+<script src="/static/assets/js/form/file.js"></script>
