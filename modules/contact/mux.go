@@ -7,4 +7,5 @@ import (
 // Mux Article
 func Mux() {
 	core.Mux.GET("/contact", Contact)
+	core.Mux.POST("/contact/process", Process)
 }
