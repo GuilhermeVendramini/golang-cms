@@ -1,6 +1,7 @@
 package article
 
 import (
+	"html/template"
 	"log"
 	"net/http"
 	"strings"
@@ -122,6 +123,7 @@ func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	vars := make(map[string]interface{})
 	vars["Type"] = "article"
 	vars["Content"] = item
+	vars["BodyHTML"] = template.HTML(item.Body)
 
 	err = config.TPL.ExecuteTemplate(w, "article.html", vars)
 	HandleError(w, err)
