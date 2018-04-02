@@ -7,4 +7,7 @@
     <li class="list-group-item"><a href="{{.URL}}">{{.Title}}</a><div class="ml-auto"><a href="/admin/edit/{{$.Type}}/{{.ID.Hex}}">Edit</a> | <a href="/admin/delete/{{$.Type}}/{{.ID.Hex}}">Delete</a></div></li>
     {{end}}
 </ul>
+<div class="p-4 d-flex justify-content-center">
+{{template "paginator" .}}
+</div>
 {{end}}

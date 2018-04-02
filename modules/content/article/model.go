@@ -56,3 +56,23 @@ func GetAll() ([]Article, error) {
 	}
 	return items, nil
 }
+
+// GetSkip return skipping articles
+func GetSkip(s int) ([]Article, error) {
+	items := []Article{}
+	err := Articles.Find(bson.M{}).Sort("-_id").Skip(s).Limit(10).All(&items)
+	if err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+// GetNext article
+func GetNext(s int) (Article, error) {
+	item := Article{}
+	err := Articles.Find(bson.M{}).Sort("-_id").Skip(s).Limit(1).One(&item)
+	if err != nil {
+		return item, err
+	}
+	return item, nil
+}

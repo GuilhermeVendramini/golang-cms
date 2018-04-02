@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -204,12 +205,34 @@ func DeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 
 // AdminContentList admin article list
 func AdminContentList(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	items, err := GetAll()
+	var s int
+	vars := make(map[string]interface{})
+
+	// Pager begins
+	skip, ok := r.URL.Query()["skip"]
+	vars["First"] = true
+	if !ok || len(skip) < 1 {
+		s = 0
+		vars["Prev"] = 0
+		vars["First"] = false
+	} else {
+		s, _ = strconv.Atoi(skip[0])
+		vars["Prev"] = s - 10
+		if s <= 0 {
+			vars["Prev"] = 0
+			s = 0
+		}
+	}
+	items, err := GetSkip(s)
 	if err != nil {
 		panic(err)
 	}
+	next, _ := GetNext(s + 10)
+	if next.ID != "" {
+		vars["Next"] = s + 10
+	}
+	// Pager end
 
-	vars := make(map[string]interface{})
 	vars["Type"] = "article"
 	vars["Content"] = items
 

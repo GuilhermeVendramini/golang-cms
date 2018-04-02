@@ -1,0 +1,15 @@
+{{define "paginator"}}
+<nav class="text-center">
+    <ul class="pagination">
+        {{if .First}}
+        <li class="page-item"><a class="page-link" href="/admin/content/{{.Type}}"><b>#First</b></a></li>
+        {{end}}
+        {{if .Prev}}
+        <li class="page-item"><a class="page-link" href="/admin/content/{{.Type}}?skip={{.Prev}}"><b>&lt;&lt; Previous</b></a></li>
+        {{end}}
+        {{if .Next}}
+        <li class="page-item"><a class="page-link" href="/admin/content/{{.Type}}?skip={{.Next}}"><b>Next &gt;&gt;</b></a></li>
+        {{end}}
+    </ul>
+</nav>
+{{end}}
