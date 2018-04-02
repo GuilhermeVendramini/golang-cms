@@ -17,7 +17,6 @@ func Contact(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // Process Email
 func Process(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-
 	name := r.FormValue("name")
 	email := r.FormValue("email")
 	subj := r.FormValue("subject")
