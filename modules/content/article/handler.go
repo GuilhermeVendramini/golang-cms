@@ -28,6 +28,43 @@ type Article struct {
 	Created time.Time
 }
 
+/* List articles with redis
+func List(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	cRedis := redis.Client
+	var items []Article
+
+	result, err := cRedis.Get("articles").Bytes()
+	if err == redis.Nil {
+		fmt.Println("Without redis")
+		items, err = GetAll()
+		if err != nil {
+			panic(err)
+		}
+
+		strItems, err := json.Marshal(items)
+		if err != nil {
+			panic(err)
+		}
+
+		err = cRedis.Set("articles", strItems, 0).Err()
+		if err != nil {
+			panic(err)
+		}
+	} else if err != nil {
+		panic(err)
+	} else {
+		fmt.Println("With redis")
+		err = json.Unmarshal(result, &items)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	err = config.TPL.ExecuteTemplate(w, "articles.html", items)
+	HandleError(w, err)
+} */
+
 // List articles
 func List(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	items, err := GetAll()
