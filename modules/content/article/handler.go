@@ -1,6 +1,8 @@
 package article
 
 import (
+	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -10,6 +12,7 @@ import (
 	"github.com/GuilhermeVendramini/golang-cms/config"
 	"github.com/GuilhermeVendramini/golang-cms/core/functions"
 	"github.com/GuilhermeVendramini/golang-cms/core/modules/file"
+	"github.com/GuilhermeVendramini/golang-cms/modules/redis"
 	"github.com/julienschmidt/httprouter"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -28,12 +31,39 @@ type Article struct {
 	Created time.Time
 }
 
-// List articles
+// List articles with redis
 func List(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	items, err := GetAll()
-	if err != nil {
+
+	cRedis := redis.Client
+	var items []Article
+
+	result, err := cRedis.Get("articles").Bytes()
+	if err == redis.Nil {
+		fmt.Println("Without redis")
+		items, err = GetAll()
+		if err != nil {
+			panic(err)
+		}
+
+		strItems, err := json.Marshal(items)
+		if err != nil {
+			panic(err)
+		}
+
+		err = cRedis.Set("articles", strItems, 0).Err()
+		if err != nil {
+			panic(err)
+		}
+	} else if err != nil {
 		panic(err)
+	} else {
+		fmt.Println("With redis")
+		err = json.Unmarshal(result, &items)
+		if err != nil {
+			panic(err)
+		}
 	}
+
 	err = config.TPL.ExecuteTemplate(w, "articles.html", items)
 	HandleError(w, err)
 }
@@ -109,6 +139,10 @@ func ItemProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err != nil {
 		panic(err)
 	}
+
+	cRedis := redis.Client
+	cRedis.FlushAll()
+
 	http.Redirect(w, r, item.URL, http.StatusSeeOther)
 }
 
