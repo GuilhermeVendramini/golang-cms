@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/GuilhermeVendramini/golang-cms/config"
-	"github.com/GuilhermeVendramini/golang-cms/core/functions"
 	"github.com/GuilhermeVendramini/golang-cms/core/modules/file"
+	"github.com/GuilhermeVendramini/golang-cms/core/utils"
 	"github.com/julienschmidt/httprouter"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -137,7 +137,7 @@ func ItemProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 
 	if ID != "" {
-		item.Created = functions.StringToTime(r.FormValue("created"))
+		item.Created = utils.StringToTime(r.FormValue("created"))
 		_, err = Update(item, ID)
 	} else {
 		item.Created = time.Now()
