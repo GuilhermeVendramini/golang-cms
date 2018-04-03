@@ -1,6 +1,8 @@
 package article
 
 import (
+	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -165,6 +167,24 @@ func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	err = config.TPL.ExecuteTemplate(w, "article.html", vars)
 	HandleError(w, err)
+}
+
+// ReadJSON read a article in json format
+func ReadJSON(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	w.Header().Set("Content-Type", "application/json")
+
+	URL := r.URL.Path
+	ID := strings.Replace(URL, "/api/article/", "", 1)
+	item, err := GetbyID(ID)
+	if err != nil {
+		panic(err)
+	}
+
+	ij, _ := json.Marshal(item)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+	fmt.Fprintf(w, "%s", ij)
 }
 
 // Delete return delete-content.html

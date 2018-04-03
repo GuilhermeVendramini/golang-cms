@@ -8,6 +8,7 @@ import (
 func Mux() {
 	core.Mux.GET("/articles", List)
 	core.Mux.GET("/article/:url", Read)
+	core.Mux.GET("/api/article/:id", ReadJSON)
 	core.Mux.GET("/admin/add/article", Add)
 	core.Mux.GET("/admin/edit/article/:id", Edit)
 	core.Mux.POST("/admin/add/article/process", ItemProcess)
