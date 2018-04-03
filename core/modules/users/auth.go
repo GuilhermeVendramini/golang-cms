@@ -1,10 +1,9 @@
-package auth
+package users
 
 import (
 	"net/http"
 	"strconv"
 
-	"github.com/GuilhermeVendramini/golang-cms/core/modules/users"
 	"github.com/gorilla/securecookie"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -29,7 +28,7 @@ func GetUser(r *http.Request) map[string]interface{} {
 }
 
 // SetSession cookie
-func SetSession(user users.User, w http.ResponseWriter) {
+func SetSession(user User, w http.ResponseWriter) {
 	value := map[string]string{
 		"name":  user.Name,
 		"email": user.Email,
@@ -60,4 +59,18 @@ func ClearSession(w http.ResponseWriter) {
 func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+// UserIsLogged verify if user is logged
+func UserIsLogged(w http.ResponseWriter, r *http.Request) {
+	user := GetUser(r)
+	if user["email"] == nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+}
+
+// HashPassword Hash user password
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
 }

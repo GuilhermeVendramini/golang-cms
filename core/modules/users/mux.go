@@ -11,4 +11,7 @@ func Mux() {
 	core.Mux.GET("/admin/user/edit/:id", Edit)
 	core.Mux.GET("/admin/user/delete/:id", Delete)
 	core.Mux.POST("/admin/delete/process/user/:id", DeleteProcess)
+	core.Mux.GET("/login", login)
+	core.Mux.POST("/login/process", LoginProcess)
+	core.Mux.GET("/logout", Logout)
 }

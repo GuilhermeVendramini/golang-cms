@@ -7,7 +7,6 @@ import (
 
 	"github.com/GuilhermeVendramini/golang-cms/config"
 	"github.com/julienschmidt/httprouter"
-	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -22,6 +21,7 @@ type User struct {
 
 // List all users
 func List(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	UserIsLogged(w, r)
 	users, err := GetAll()
 	if err != nil {
 		panic(err)
@@ -32,6 +32,7 @@ func List(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 // Read a specific user
 func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	UserIsLogged(w, r)
 	URL := r.URL.Path
 	ID := strings.Replace(URL, "/user/", "", 1)
 	user, err := GetbyID(ID)
@@ -48,12 +49,14 @@ func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // Add a new user
 func Add(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	UserIsLogged(w, r)
 	err := config.TPL.ExecuteTemplate(w, "user-add.html", nil)
 	HandleError(w, err)
 }
 
 // Edit call user-add.html to edit a user
 func Edit(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	UserIsLogged(w, r)
 	URL := r.URL.Path
 	ID := strings.Replace(URL, "/admin/user/edit/", "", 1)
 	user, err := GetbyID(ID)
@@ -74,6 +77,7 @@ func Edit(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // UserProcess add or edit user
 func UserProcess(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	UserIsLogged(w, r)
 	var err error
 
 	user := User{}
@@ -112,6 +116,7 @@ func UserProcess(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 // Delete return delete-user.html
 func Delete(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	UserIsLogged(w, r)
 	URL := r.URL.Path
 	ID := strings.Replace(URL, "/admin/user/delete/", "", 1)
 	user, err := GetbyID(ID)
@@ -128,6 +133,7 @@ func Delete(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // DeleteProcess delete action
 func DeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	UserIsLogged(w, r)
 	ID := r.FormValue("user-id")
 	err := Remove(ID)
 	if err != nil {
@@ -137,10 +143,36 @@ func DeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 	HandleError(w, err)
 }
 
-// HashPassword Hash user password
-func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
+func login(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	err := config.TPL.ExecuteTemplate(w, "login.html", nil)
+	HandleError(w, err)
+}
+
+// LoginProcess process user register
+func LoginProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	email := r.FormValue("email")
+	pass := r.FormValue("password")
+	redirect := "/login"
+	if email != "" && pass != "" {
+		user := User{}
+		user, err := GetbyEmail(email)
+		if err != nil {
+			http.Redirect(w, r, redirect, http.StatusSeeOther)
+		}
+		match := CheckPasswordHash(pass, user.Password)
+		if match == false {
+			http.Redirect(w, r, redirect, http.StatusSeeOther)
+		}
+		SetSession(user, w)
+		redirect = "/admin"
+	}
+	http.Redirect(w, r, redirect, 302)
+}
+
+// Logout user
+func Logout(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	ClearSession(w)
+	http.Redirect(w, r, "/", 302)
 }
 
 // HandleError return Status Internal Server Error

@@ -12,6 +12,7 @@ import (
 
 	"github.com/GuilhermeVendramini/golang-cms/config"
 	"github.com/GuilhermeVendramini/golang-cms/core/modules/file"
+	"github.com/GuilhermeVendramini/golang-cms/core/modules/users"
 	"github.com/GuilhermeVendramini/golang-cms/core/utils"
 	"github.com/julienschmidt/httprouter"
 	"gopkg.in/mgo.v2/bson"
@@ -80,12 +81,14 @@ func List(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // Add call article-add.html to add new article
 func Add(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	users.UserIsLogged(w, r)
 	err := config.TPL.ExecuteTemplate(w, "article-add.html", nil)
 	HandleError(w, err)
 }
 
 // Edit call article-add.html to edit a article
 func Edit(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	users.UserIsLogged(w, r)
 	URL := r.URL.Path
 	ID := strings.Replace(URL, "/admin/edit/article/", "", 1)
 	item, err := GetbyID(ID)
@@ -103,8 +106,8 @@ func Edit(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // ItemProcess add or edit article process
 func ItemProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	users.UserIsLogged(w, r)
 	var err error
-
 	item := Article{}
 	item.Title = r.FormValue("title")
 	item.Teaser = r.FormValue("teaser")
@@ -187,6 +190,7 @@ func ReadJSON(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // Delete return delete-content.html
 func Delete(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	users.UserIsLogged(w, r)
 	URL := r.URL.Path
 	ID := strings.Replace(URL, "/admin/delete/article/", "", 1)
 	item, err := GetbyID(ID)
@@ -204,6 +208,7 @@ func Delete(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // DeleteProcess delete action
 func DeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	users.UserIsLogged(w, r)
 	ID := r.FormValue("item-id")
 
 	item, err := GetbyID(ID)
@@ -223,6 +228,7 @@ func DeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 
 // AdminContentList admin article list
 func AdminContentList(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	users.UserIsLogged(w, r)
 	var s int
 	vars := make(map[string]interface{})
 
