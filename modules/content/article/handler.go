@@ -171,8 +171,6 @@ func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // ReadJSON read a article in json format
 func ReadJSON(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	w.Header().Set("Content-Type", "application/json")
-
 	URL := r.URL.Path
 	ID := strings.Replace(URL, "/api/article/", "", 1)
 	item, err := GetbyID(ID)
