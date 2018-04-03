@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/GuilhermeVendramini/golang-cms/core"
+	"github.com/GuilhermeVendramini/golang-cms/core/modules/auth"
 	"github.com/GuilhermeVendramini/golang-cms/core/modules/users"
 	"github.com/GuilhermeVendramini/golang-cms/modules/contact"
 	"github.com/GuilhermeVendramini/golang-cms/modules/content/article"
@@ -12,6 +13,9 @@ import (
 func main() {
 	// Core Users
 	users.Mux()
+
+	// Auth
+	auth.Mux()
 
 	// Contact Mux
 	contact.Mux()

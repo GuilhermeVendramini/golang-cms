@@ -40,6 +40,13 @@ func GetbyID(ID string) (User, error) {
 	return user, err
 }
 
+// GetbyEmail return one user by email
+func GetbyEmail(Email string) (User, error) {
+	user := User{}
+	err := Users.Find(bson.M{"email": Email}).One(&user)
+	return user, err
+}
+
 // GetAll return all users
 func GetAll() ([]User, error) {
 	users := []User{}
