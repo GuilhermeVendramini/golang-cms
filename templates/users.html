@@ -12,7 +12,7 @@
             </div>
             <ul class="list-group">
                 {{range .Users}}
-                <li class="list-group-item"><a href="/user/{{.ID.Hex}}">{{.Name}}</a><div class="ml-auto"><a href="/admin/user/edit/{{.ID.Hex}}">Edit</a> | <a href="/admin/user/delete/{{.ID.Hex}}">Delete</a></div></li>
+                <li class="list-group-item d-flex justify-content-between"><a href="/user/{{.ID.Hex}}">{{.Name}}</a><div class="action-links"><a href="/admin/user/edit/{{.ID.Hex}}">Edit</a> | <a href="/admin/user/delete/{{.ID.Hex}}">Delete</a></div></li>
                 {{end}}
             </ul>
         </div>

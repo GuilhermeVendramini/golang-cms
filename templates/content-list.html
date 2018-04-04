@@ -4,7 +4,7 @@
 </div>
 <ul class="list-group">
     {{range .Content}}
-    <li class="list-group-item"><a href="{{.URL}}">{{.Title}}</a><div class="ml-auto"><a href="/admin/edit/{{$.Type}}/{{.ID.Hex}}">Edit</a> | <a href="/admin/delete/{{$.Type}}/{{.ID.Hex}}">Delete</a></div></li>
+    <li class="list-group-item d-flex justify-content-between"><a href="{{.URL}}">{{.Title}}</a><div class="action-links"><a href="/admin/edit/{{$.Type}}/{{.ID.Hex}}">Edit</a> | <a href="/admin/delete/{{$.Type}}/{{.ID.Hex}}">Delete</a></div></li>
     {{end}}
 </ul>
 <div class="p-4 d-flex justify-content-center">
