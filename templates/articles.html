@@ -1,13 +1,13 @@
 {{template "header"}}
 
-{{template "navbar"}}
+{{template "navbar" .LoggedUser}}
 
 <div class="container">
     <div class="row justify-content-center pt-5 pb-5">
         <div class="col-lg-8">
             <h1>Articles</h1>
             <div class="list-group">
-            {{range .}}
+            {{range .Items}}
             <a href="{{.URL}}" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h3 class="mb-1">{{.Title}}</h3>

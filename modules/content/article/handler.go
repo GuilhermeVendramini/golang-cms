@@ -75,7 +75,11 @@ func List(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err != nil {
 		panic(err)
 	}
-	err = config.TPL.ExecuteTemplate(w, "articles.html", items)
+	user := users.GetUser(r)
+	vars := make(map[string]interface{})
+	vars["LoggedUser"] = user
+	vars["Items"] = items
+	err = config.TPL.ExecuteTemplate(w, "articles.html", vars)
 	HandleError(w, err)
 }
 
@@ -96,11 +100,11 @@ func Edit(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
-	val := make(map[string]interface{})
-	val["Content"] = item
-	val["Type"] = "article"
-	val["URL"] = strings.Replace(item.URL, "/article/", "", 1)
-	err = config.TPL.ExecuteTemplate(w, "article-add.html", val)
+	vars := make(map[string]interface{})
+	vars["Content"] = item
+	vars["Type"] = "article"
+	vars["URL"] = strings.Replace(item.URL, "/article/", "", 1)
+	err = config.TPL.ExecuteTemplate(w, "article-add.html", vars)
 	HandleError(w, err)
 }
 

@@ -1,15 +1,19 @@
-package core
+package index
 
 import (
 	"log"
 	"net/http"
 
 	"github.com/GuilhermeVendramini/golang-cms/config"
+	"github.com/GuilhermeVendramini/golang-cms/core/modules/users"
 	"github.com/julienschmidt/httprouter"
 )
 
 func index(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	err := config.TPL.ExecuteTemplate(w, "index.html", nil)
+	user := users.GetUser(r)
+	vars := make(map[string]interface{})
+	vars["LoggedUser"] = user
+	err := config.TPL.ExecuteTemplate(w, "index.html", vars)
 	HandleError(w, err)
 }
 

@@ -1,17 +1,17 @@
 package users
 
-import "github.com/GuilhermeVendramini/golang-cms/core"
+import "github.com/GuilhermeVendramini/golang-cms/core/utils"
 
 // Mux users
 func Mux() {
-	core.Mux.GET("/user/:id", Read)
-	core.Mux.GET("/admin/users", List)
-	core.Mux.GET("/admin/add/user", Add)
-	core.Mux.POST("/admin/add/user/process", UserProcess)
-	core.Mux.GET("/admin/user/edit/:id", Edit)
-	core.Mux.GET("/admin/user/delete/:id", Delete)
-	core.Mux.POST("/admin/delete/process/user/:id", DeleteProcess)
-	core.Mux.GET("/login", login)
-	core.Mux.POST("/login/process", LoginProcess)
-	core.Mux.GET("/logout", Logout)
+	utils.Mux.GET("/user/:id", Read)
+	utils.Mux.GET("/admin/users", List)
+	utils.Mux.GET("/admin/add/user", Add)
+	utils.Mux.POST("/admin/add/user/process", UserProcess)
+	utils.Mux.GET("/admin/user/edit/:id", Edit)
+	utils.Mux.GET("/admin/user/delete/:id", Delete)
+	utils.Mux.POST("/admin/delete/process/user/:id", DeleteProcess)
+	utils.Mux.GET("/login", Login)
+	utils.Mux.POST("/login/process", LoginProcess)
+	utils.Mux.GET("/logout", Logout)
 }

@@ -12,7 +12,10 @@ import (
 // Admin page
 func Admin(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	users.UserIsLogged(w, r)
-	err := config.TPL.ExecuteTemplate(w, "admin.html", nil)
+	user := users.GetUser(r)
+	vars := make(map[string]interface{})
+	vars["LoggedUser"] = user
+	err := config.TPL.ExecuteTemplate(w, "admin.html", vars)
 	HandleError(w, err)
 }
 
@@ -23,6 +26,9 @@ func Content(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	tp := q.Get("type")
 
 	vars := make(map[string]interface{})
+	user := users.GetUser(r)
+
+	vars["LoggedUser"] = user
 	vars["Type"] = tp
 
 	err := config.TPL.ExecuteTemplate(w, "content.html", vars)

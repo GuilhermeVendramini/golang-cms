@@ -143,7 +143,8 @@ func DeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 	HandleError(w, err)
 }
 
-func login(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+// Login user
+func Login(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	err := config.TPL.ExecuteTemplate(w, "login.html", nil)
 	HandleError(w, err)
 }

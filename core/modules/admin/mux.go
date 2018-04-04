@@ -1,9 +1,9 @@
 package admin
 
-import "github.com/GuilhermeVendramini/golang-cms/core"
+import "github.com/GuilhermeVendramini/golang-cms/core/utils"
 
 // Mux admin
 func Mux() {
-	core.Mux.GET("/admin", Admin)
-	core.Mux.GET("/admin/content", Content)
+	utils.Mux.GET("/admin", Admin)
+	utils.Mux.GET("/admin/content", Content)
 }
