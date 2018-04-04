@@ -75,9 +75,9 @@ func List(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err != nil {
 		panic(err)
 	}
-	user := users.GetUser(r)
+	lUser := users.GetLoggedUser(r)
 	vars := make(map[string]interface{})
-	vars["LoggedUser"] = user
+	vars["LoggedUser"] = lUser
 	vars["Items"] = items
 	err = config.TPL.ExecuteTemplate(w, "articles.html", vars)
 	HandleError(w, err)
@@ -86,7 +86,10 @@ func List(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 // Add call article-add.html to add new article
 func Add(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	users.UserIsLogged(w, r)
-	err := config.TPL.ExecuteTemplate(w, "article-add.html", nil)
+	vars := make(map[string]interface{})
+	lUser := users.GetLoggedUser(r)
+	vars["LoggedUser"] = lUser
+	err := config.TPL.ExecuteTemplate(w, "article-add.html", vars)
 	HandleError(w, err)
 }
 
@@ -104,6 +107,10 @@ func Edit(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	vars["Content"] = item
 	vars["Type"] = "article"
 	vars["URL"] = strings.Replace(item.URL, "/article/", "", 1)
+
+	lUser := users.GetLoggedUser(r)
+	vars["LoggedUser"] = lUser
+
 	err = config.TPL.ExecuteTemplate(w, "article-add.html", vars)
 	HandleError(w, err)
 }
@@ -172,6 +179,9 @@ func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	vars["Content"] = item
 	vars["BodyHTML"] = template.HTML(item.Body)
 
+	lUser := users.GetLoggedUser(r)
+	vars["LoggedUser"] = lUser
+
 	err = config.TPL.ExecuteTemplate(w, "article.html", vars)
 	HandleError(w, err)
 }
@@ -205,6 +215,9 @@ func Delete(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	vars := make(map[string]interface{})
 	vars["Type"] = "article"
 	vars["Content"] = item
+
+	lUser := users.GetLoggedUser(r)
+	vars["LoggedUser"] = lUser
 
 	err = config.TPL.ExecuteTemplate(w, "delete-content.html", vars)
 	HandleError(w, err)
@@ -263,6 +276,9 @@ func AdminContentList(w http.ResponseWriter, r *http.Request, _ httprouter.Param
 
 	vars["Type"] = "article"
 	vars["Content"] = items
+
+	lUser := users.GetLoggedUser(r)
+	vars["LoggedUser"] = lUser
 
 	err = config.TPL.ExecuteTemplate(w, "content.html", vars)
 	HandleError(w, err)

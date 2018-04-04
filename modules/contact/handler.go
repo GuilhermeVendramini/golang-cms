@@ -5,13 +5,18 @@ import (
 	"net/http"
 
 	"github.com/GuilhermeVendramini/golang-cms/config"
+	"github.com/GuilhermeVendramini/golang-cms/core/modules/users"
 	"github.com/julienschmidt/httprouter"
 	gomail "gopkg.in/gomail.v2"
 )
 
 // Contact form
 func Contact(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	err := config.TPL.ExecuteTemplate(w, "contact.html", nil)
+	vars := make(map[string]interface{})
+	lUser := users.GetLoggedUser(r)
+	vars["LoggedUser"] = lUser
+
+	err := config.TPL.ExecuteTemplate(w, "contact.html", vars)
 	HandleError(w, err)
 }
 

@@ -1,12 +1,12 @@
 {{template "header"}}
 
-{{template "navbar"}}
+{{template "navbar" .LoggedUser}}
 
 <div class="container">
     <div class="row pt-5 pb-5">
         {{template "admin-navbar"}}
         <div class="col-lg-8">
-            {{if .}}
+            {{if and .LoggedUser .Content}}
             {{template "navcontent" .}}
             {{end}}
             <h1>Article</h1>

@@ -1,11 +1,11 @@
 {{template "header"}}
 
-{{template "navbar"}}
+{{template "navbar" .LoggedUser}}
 
 <div class="container">
     <div class="row justify-content-center pt-5 pb-5">
         <div class="col-lg-8">
-            {{template "navuser" .}}
+            {{template "navuser" .User}}
             <center><h1>{{.User.Name}}</h1></center>
             <div class="teaser"><b>E-mail:</b><br>{{.User.Email}}</div>
             <div class="admin"><b>Admin:</b><br>{{.User.Admin}}</div>

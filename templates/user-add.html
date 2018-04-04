@@ -1,13 +1,13 @@
 {{template "header"}}
 
-{{template "navbar"}}
+{{template "navbar" .LoggedUser}}
 
 <div class="container">
     <div class="row pt-5 pb-5">
         {{template "admin-navbar"}}
         <div class="col-lg-8">
-            {{if .}}
-            {{template "navuser" .}}
+            {{if .User}}
+            {{template "navuser" .User}}
             {{end}}
             <h1>User</h1>
             <form method="post" action="/admin/add/user/process">

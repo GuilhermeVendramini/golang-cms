@@ -1,12 +1,12 @@
 {{template "header"}}
 
-{{template "navbar"}}
+{{template "navbar" .LoggedUser}}
 
 <div class="container">
     <div class="row pt-5 pb-5">
         {{template "admin-navbar"}}
         <div class="col-lg-8">
-            {{template "navuser" .}}
+            {{template "navuser" .User}}
             <h1>Delete "{{.User.Name}}"?</h1>
             <div class="form">
                 <form method="post" action="/admin/delete/process/user/{{.User.ID.Hex}}">

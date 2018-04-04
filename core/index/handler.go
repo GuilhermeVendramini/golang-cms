@@ -10,9 +10,9 @@ import (
 )
 
 func index(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	user := users.GetUser(r)
+	lUser := users.GetLoggedUser(r)
 	vars := make(map[string]interface{})
-	vars["LoggedUser"] = user
+	vars["LoggedUser"] = lUser
 	err := config.TPL.ExecuteTemplate(w, "index.html", vars)
 	HandleError(w, err)
 }

@@ -1,13 +1,13 @@
 {{define "navuser"}}
 <ul class="nav justify-content-center pb-3">
     <li class="nav-item">
-        <a class="nav-link" href="/user/{{.User.ID.Hex}}">View</a>
+        <a class="nav-link" href="/user/{{.ID.Hex}}">View</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/admin/user/edit/{{.User.ID.Hex}}">Edit</a>
+        <a class="nav-link" href="/admin/user/edit/{{.ID.Hex}}">Edit</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/admin/user/delete/{{.User.ID.Hex}}">Delete</a>
+        <a class="nav-link" href="/admin/user/delete/{{.ID.Hex}}">Delete</a>
     </li>
 </ul>
 {{end}}

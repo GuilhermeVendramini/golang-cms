@@ -1,6 +1,6 @@
 {{template "header"}}
 
-{{template "navbar"}}
+{{template "navbar" .LoggedUser}}
 
 <div class="container">
     <div class="row pt-5 pb-5">
@@ -11,7 +11,7 @@
                 <a href="/admin/add/user" class="bg-primary text-white btn mb-3 mb-md-0">Add new user</a>
             </div>
             <ul class="list-group">
-                {{range .}}
+                {{range .Users}}
                 <li class="list-group-item"><a href="/user/{{.ID.Hex}}">{{.Name}}</a><div class="ml-auto"><a href="/admin/user/edit/{{.ID.Hex}}">Edit</a> | <a href="/admin/user/delete/{{.ID.Hex}}">Delete</a></div></li>
                 {{end}}
             </ul>

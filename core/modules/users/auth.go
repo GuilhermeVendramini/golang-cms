@@ -13,8 +13,8 @@ var cookieHandler = securecookie.New(
 	securecookie.GenerateRandomKey(64),
 	securecookie.GenerateRandomKey(32))
 
-// GetUser get current user
-func GetUser(r *http.Request) map[string]interface{} {
+// GetLoggedUser get current user
+func GetLoggedUser(r *http.Request) map[string]interface{} {
 	user := make(map[string]interface{})
 	if cookie, err := r.Cookie("session"); err == nil {
 		cookieValue := make(map[string]string)
@@ -63,7 +63,7 @@ func CheckPasswordHash(password, hash string) bool {
 
 // UserIsLogged verify if user is logged
 func UserIsLogged(w http.ResponseWriter, r *http.Request) {
-	user := GetUser(r)
+	user := GetLoggedUser(r)
 	if user["email"] == nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}

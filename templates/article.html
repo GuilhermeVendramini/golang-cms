@@ -1,11 +1,13 @@
 {{template "header"}}
 
-{{template "navbar"}}
+{{template "navbar" .LoggedUser}}
 
 <div class="container">
     <div class="row justify-content-center pt-5 pb-5">
         <div class="col-lg-8">
+            {{if .LoggedUser}}
             {{template "navcontent" .}}
+            {{end}}
             <center><h1>{{.Content.Title}}</h1></center>
             {{if .Content.Image}}
             <div><img src="/{{.Content.Image}}" class="img-fluid"></div>

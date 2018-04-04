@@ -26,7 +26,12 @@ func List(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	if err != nil {
 		panic(err)
 	}
-	err = config.TPL.ExecuteTemplate(w, "users.html", users)
+
+	lUser := GetLoggedUser(r)
+	vars := make(map[string]interface{})
+	vars["LoggedUser"] = lUser
+	vars["Users"] = users
+	err = config.TPL.ExecuteTemplate(w, "users.html", vars)
 	HandleError(w, err)
 }
 
@@ -42,6 +47,8 @@ func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	vars := make(map[string]interface{})
 	vars["User"] = user
+	lUser := GetLoggedUser(r)
+	vars["LoggedUser"] = lUser
 
 	err = config.TPL.ExecuteTemplate(w, "user.html", vars)
 	HandleError(w, err)
@@ -50,7 +57,12 @@ func Read(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 // Add a new user
 func Add(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	UserIsLogged(w, r)
-	err := config.TPL.ExecuteTemplate(w, "user-add.html", nil)
+
+	vars := make(map[string]interface{})
+	lUser := GetLoggedUser(r)
+	vars["LoggedUser"] = lUser
+
+	err := config.TPL.ExecuteTemplate(w, "user-add.html", vars)
 	HandleError(w, err)
 }
 
@@ -64,14 +76,17 @@ func Edit(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
-	val := make(map[string]interface{})
-	val["User"] = user
+	vars := make(map[string]interface{})
+	vars["User"] = user
 
 	if user.Admin {
-		val["IsAdmin"] = "checked"
+		vars["IsAdmin"] = "checked"
 	}
 
-	err = config.TPL.ExecuteTemplate(w, "user-add.html", val)
+	lUser := GetLoggedUser(r)
+	vars["LoggedUser"] = lUser
+
+	err = config.TPL.ExecuteTemplate(w, "user-add.html", vars)
 	HandleError(w, err)
 }
 
@@ -145,7 +160,11 @@ func DeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 
 // Login user
 func Login(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	err := config.TPL.ExecuteTemplate(w, "login.html", nil)
+	vars := make(map[string]interface{})
+	lUser := GetLoggedUser(r)
+	vars["LoggedUser"] = lUser
+
+	err := config.TPL.ExecuteTemplate(w, "login.html", vars)
 	HandleError(w, err)
 }
 
