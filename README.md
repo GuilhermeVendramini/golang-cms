@@ -6,7 +6,9 @@ Build fast and flexible websites in Golang.
 # How to use
 
 Change your mongodb credentials and database name in "config/db.go".
-Uncomment the line "demo.User()" inside of main.go, "demo.User()" will gerenate a demo user:
+Uncomment the line "demo.User()" inside of main.go.
+
+"demo.User()" will gerenate a demo user:
 
 > Name: admin
 > Email: admin@admin.com
