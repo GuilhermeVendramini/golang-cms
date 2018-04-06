@@ -26,6 +26,12 @@ After running for the first time, comment "demo.User()" otherwise that will gene
 
 **Enjoy!**
 
+# TODO
+
+* CRUD User validation
+* CRUD Article validation
+* User login validation
+
 # Packages
 
 [gopkg.in/mgo.v2](https://gopkg.in/mgo.v2)
