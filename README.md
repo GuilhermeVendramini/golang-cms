@@ -11,7 +11,9 @@ Uncomment the line "demo.User()" inside of main.go.
 "demo.User()" will gerenate a demo user:
 
 > Name: admin
+
 > Email: admin@admin.com
+
 > Password: admin
 
 Execute:
