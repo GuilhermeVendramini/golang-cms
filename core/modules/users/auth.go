@@ -19,9 +19,9 @@ func GetLoggedUser(r *http.Request) map[string]interface{} {
 	if cookie, err := r.Cookie("session"); err == nil {
 		cookieValue := make(map[string]string)
 		if err = cookieHandler.Decode("session", cookie.Value, &cookieValue); err == nil {
-			user["name"] = cookieValue["name"]
-			user["email"] = cookieValue["email"]
-			user["admin"] = cookieValue["admin"]
+			user["Name"] = cookieValue["Name"]
+			user["Email"] = cookieValue["Email"]
+			user["Admin"] = cookieValue["Admin"]
 		}
 	}
 	return user
@@ -30,9 +30,9 @@ func GetLoggedUser(r *http.Request) map[string]interface{} {
 // SetSession cookie
 func SetSession(user User, w http.ResponseWriter) {
 	value := map[string]string{
-		"name":  user.Name,
-		"email": user.Email,
-		"admin": strconv.FormatBool(user.Admin),
+		"Name":  user.Name,
+		"Email": user.Email,
+		"Admin": strconv.FormatBool(user.Admin),
 	}
 	if encoded, err := cookieHandler.Encode("session", value); err == nil {
 		cookie := &http.Cookie{
@@ -64,7 +64,7 @@ func CheckPasswordHash(password, hash string) bool {
 // UserIsLogged verify if user is logged
 func UserIsLogged(w http.ResponseWriter, r *http.Request) {
 	user := GetLoggedUser(r)
-	if user["email"] == nil {
+	if user["Email"] == nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }

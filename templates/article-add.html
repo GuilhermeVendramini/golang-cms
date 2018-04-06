@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="hidden" name="author" value="Guilherme">
+                    <input type="hidden" name="author" value="{{.LoggedUser.Name}}">
                     <input type="hidden" name="item-id" value="{{.Content.ID.Hex}}">
                     <input type="hidden" name="created" value="{{.Content.Created}}">
                 </div>
