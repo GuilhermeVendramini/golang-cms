@@ -25,8 +25,13 @@ After running for the first time, comment "demo.User()" otherwise that will gene
 # Packages
 
 [gopkg.in/mgo.v2](https://gopkg.in/mgo.v2)
+
 [github.com/julienschmidt/httprouter](https://github.com/julienschmidt/httprouter)
+
 [github.com/gorilla/securecookie](https://github.com/gorilla/securecookie)
+
 [golang.org/x/crypto/bcrypt](https://godoc.org/golang.org/x/crypto/bcrypt)
+
 [gopkg.in/gomail.v2](https://gopkg.in/gomail.v2)
+
 [github.com/go-redis/redis](https://github.com/go-redis/redis)
